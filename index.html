@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Registration</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('picture.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: auto;
+            color: #f0f0f0;
+        }
+
+        .background {
+            background-image: linear-gradient(to right, rgba(255, 106, 106, 0.8), rgba(255, 200, 162, 0.8));
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .form-container {
+            background-color: #2e2e3d;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            color: #ffffff;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffcccb;
+            font-size: 26px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            display: block;
+            color: #ffcccb;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 17px;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff6a6a;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 106, 106, 0.5);
+        }
+
+        button {
+            background-color: #ff6a6a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e66060;
+        }
+
+        button:active {
+            background-color: #cc5454;
+        }
+
+        .form-container input[type="file"] {
+            padding: 5px;
+        }
+
+        .form-container input[type="file"]::file-selector-button {
+            background-color: #ff6a6a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container input[type="file"]::file-selector-button:hover {
+            background-color: #e66060;
+        }
+
+        .form-container input[type="file"]::file-selector-button:active {
+            background-color: #cc5454;
+        }
+
+        .file-info {
+            font-size: 16px;
+            color: #ffcccb;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="form-container">
+            <h2>Job Application Form</h2>
+            <form id="registrationForm">
+                <label for="empName">Name:</label>
+                <input type="text" id="empName" name="empName" placeholder="Enter your name" required>
+
+                <label for="empEmail">Email:(Include an '@' symbol followed by dot(.))</label>
+                <input type="email" id="empEmail" name="empEmail" placeholder="Enter your email" required>
+
+                <label for="empPhone">Phone Number: (10 digits)</label>
+                <input type="tel" id="empPhone" name="empPhone" placeholder="Enter your phone number" required>
+
+                <label for="empDOB">Date of Birth:</label>
+                <input type="date" id="empDOB" name="empDOB" required>
+
+                <label for="empGender">Gender:</label>
+                <select id="empGender" name="empGender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="empPassword">Password: (Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character)</label>
+                <input type="password" id="empPassword" name="empPassword" placeholder="Enter password" required>
+
+                <label for="empConfirmPassword">Confirm Password: (Same as given in the password field)</label>
+                <input type="password" id="empConfirmPassword" name="empConfirmPassword" placeholder="Confirm password" required>
+
+                <label for="empDomain">Area of Domain:</label>
+                <input type="text" id="empDomain" name="empDomain" required>
+
+                <label for="empResume">Upload Resume:</label>
+                <input type="file" id="empResume" name="empResume" accept=".pdf, .doc, .docx" required>
+                <div class="file-info" id="fileInfo">No file selected</div>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("empResume").addEventListener("change", function(event) {
+            const fileInput = event.target;
+            const fileInfo = document.getElementById("fileInfo");
+
+            if (fileInput.files.length > 0) {
+                fileInfo.textContent = "Selected file: " + fileInput.files[0].name;
+                fileInfo.style.display = "block";
+            } else {
+                fileInfo.textContent = "No file selected";
+                fileInfo.style.display = "block";
+            }
+        });
+
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            // Name validation: starts with a letter and only letters and spaces
+            const name = document.getElementById("empName").value;
+            const namePattern = /^[A-Za-z][A-Za-z\s]*$/;
+            if (!namePattern.test(name)) {
+                alert("Name must start with a letter and contain only letters and spaces.");
+                return;
+            }
+
+            // Phone number validation: exactly 10 digits
+            const phone = document.getElementById("empPhone").value;
+            const phonePattern = /^\d{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Phone number must be exactly 10 digits.");
+                return;
+            }
+
+            // Date of Birth validation: should be before today
+            const dob = document.getElementById("empDOB").value;
+            const today = new Date().toISOString().split("T")[0];
+            if (dob >= today) {
+                alert("Date of Birth must be before today.");
+                return;
+            }
+
+            // Password validation: at least 8 characters, one uppercase, one lowercase, one number, and one special character
+            const password = document.getElementById("empPassword").value;
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.");
+                return;
+            }
+
+            // Confirm Password validation
+            const confirmPassword = document.getElementById("empConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            // If all validations pass
+            alert("Registration Successful!");
+        });
+    </script>
+</body>
+</html>
